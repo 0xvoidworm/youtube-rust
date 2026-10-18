@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label": "Rust: build", "type": "process", "command": "cargo", "args": ["build", "--locked"], "problemMatcher": ["$rustc"], "group": {"kind": "build", "isDefault": true}},
+    {"label": "Rust: test", "type": "process", "command": "cargo", "args": ["test", "--locked"], "problemMatcher": ["$rustc"], "group": "test"},
+    {"label": "Rust: check all", "type": "process", "command": "rust-workbench", "args": ["check"], "problemMatcher": ["$rustc"]},
+    {"label": "Rust: coverage", "type": "process", "command": "rust-workbench", "args": ["coverage"], "problemMatcher": ["$rustc"]}
+  ]
+}

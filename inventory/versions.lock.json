@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-15T22:29:38+07:00",
+  "platform": "Fedora 44 x86_64",
+  "program": {
+    "name": "youtube-rust",
+    "version": "0.1.0",
+    "toolchain": "1.98.1",
+    "edition": "2024",
+    "executable": ".tools/bin/youtube-rust",
+    "launcher": "~/.local/bin/youtube-rust",
+    "executableSha256": "a33fbbd8e6a93347f8315420b245b4b741012df8d20014da3f1efb32a6b8c8d3",
+    "lockfile": "Cargo.lock",
+    "lockfileSha256": "c25dbf28ff6bd2017bcbdeabe51fac998612b430a0875278c47c1f70de749938",
+    "dependencies": {
+      "anyhow": "=1.0.104",
+      "clap": "=4.6.7",
+      "serde": "=1.0.229",
+      "serde_json": "=1.0.151",
+      "sha2": "=0.11.0",
+      "tempfile": "=3.27.0",
+      "url": "=2.5.8",
+      "whisper-rs": "=0.16.0"
+    }
+  },
+  "externalTools": {
+    "ytDlp": {
+      "version": "2026.08.19",
+      "executable": "~/Workspace/projects/codex-operational-baseline/.venv/bin/yt-dlp",
+      "language": "Python",
+      "source": "https://github.com/yt-dlp/yt-dlp",
+      "installMethod": "existing project-local uv environment"
+    },
+    "ffmpeg": {
+      "version": "7.0.2",
+      "executable": ".tools/bin/ffmpeg",
+      "executableSha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+      "installMethod": "symlink to existing imageio-ffmpeg binary"
+    },
+    "node": {
+      "version": "22.23.1",
+      "executable": "node"
+    },
+    "timeout": {
+      "executable": "/usr/bin/timeout",
+      "provider": "GNU coreutils"
+    }
+  },
+  "asr": {
+    "engine": "whisper-rs",
+    "version": "0.16.0",
+    "nativeEngine": "whisper.cpp",
+    "nativeVersion": "1.8.3",
+    "execution": "local CPU, 4 threads by default",
+    "model": {
+      "repository": "ggerganov/whisper.cpp",
+      "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+      "path": "models/ggml-base.bin",
+      "size": 147951465,
+      "sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+      "source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-base.bin"
+    }
+  },
+  "nativeBuildPackages": [
+    "gcc-16.2.1-2.fc44.x86_64",
+    "gcc-c++-16.2.1-2.fc44.x86_64",
+    "cmake-4.3.0-1.fc44.x86_64",
+    "clang-libs-22.1.8-4.fc44.x86_64"
+  ],
+  "ci": {
+    "runner": "ubuntu-24.04",
+    "checkout": "d23441a48e516b6c34aea4fa41551a30e30af803",
+    "hostedRunVerified": false
+  },
+  "validation": "~/Workspace/outputs/youtube-rust-validation"
+}
