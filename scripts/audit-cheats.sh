@@ -49,7 +49,6 @@ emit() { printf '%s   [%s]\n' "$1" "$2"; found=$((found + 1)); }
 
 # --- Pola build/CI: regex, lalu label (array paralel) ----------------------
 PATTERNS=(
-  '\|\|[[:space:]]*true'
   '\|\|[[:space:]]*echo'
   'cargo[^\n]*\b(clippy|check|build|test)\b[^\n]*--no-deps'
   'cargo[^\n]*--no-deps[^\n]*\b(clippy|check|build|test)\b'
@@ -62,7 +61,6 @@ PATTERNS=(
   'cargo[^\n]*--quiet'
 )
 LABELS=(
-  'mask-exit'
   'mask-exit'
   'skip-dep-lint'
   'skip-dep-lint'
@@ -83,6 +81,37 @@ for i in "${!PATTERNS[@]}"; do
   done < <(grep -rnE --binary-files=without-match "${EXCLUDES[@]}" \
       "${GATE_FILES[@]}" -- "$re" . 2>/dev/null | grep -v "$SELF_FILTER" | head -30)
 done
+
+# --- `|| true` harus punya penjelasan (baris sama atau baris sebelumnya) ---
+# Menelan exit code tanpa alasan = cheat. Tapi `pgrep` (tidak ada proses) dan
+# `qdisc del` (belum pernah dipasang) memang gagal normal — itu wajib diberi
+# komentar.
+while IFS= read -r f; do
+  awk -v file="$f" '
+    { line[NR] = $0 }
+    END {
+      for (i = 1; i <= NR; i++) {
+        if (line[i] ~ /\|\|[[:space:]]*true/) {
+          prev = (i > 1) ? line[i-1] : ""
+          # Shebang bukan penjelasan; komentar di baris yang sama atau baris
+          # sebelumnya (yang bukan shebang) yang sah sebagai alasan.
+          if (line[i] !~ /#/ && (prev !~ /#/ || prev ~ /^#!/) ) {
+            printf "%s:%d:%s   [mask-exit-tanpa-alasan]\n", file, i, line[i]
+            n++
+          }
+        }
+      }
+      exit (n > 0 ? 1 : 0)
+    }
+  ' "$f"
+  rc=$?
+  if [ $rc -ne 0 ]; then
+    found=$((found + 1))
+  fi
+done < <(find . \( -name target -o -name vendor -o -name .git -o -name node_modules \
+             -o -name .tools -o -name 'mutants.out*' -o -name .venv -o -name __pycache__ \) -prune -o \
+             -type f \( -name '*.sh' -o -name '*.bash' -o -name '*.yml' -o -name '*.yaml' \
+             -o -name '*.toml' -o -name 'Makefile' -o -name 'justfile' -o -name 'Dockerfile*' \) -print 2>/dev/null)
 
 # --- Pola Rust-specific di source .rs --------------------------------------
 RS_PATTERNS=(
