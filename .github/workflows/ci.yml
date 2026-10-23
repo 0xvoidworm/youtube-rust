@@ -15,6 +15,8 @@ jobs:
         run: rustup toolchain install 1.98.1 --profile minimal --component rustfmt,clippy
       - run: cargo fmt --all -- --check
       - run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+      - name: Anti-cheat audit
+        run: bash scripts/audit-cheats.sh .
       - run: cargo test --locked --workspace --all-features
       - run: cargo doc --locked --workspace --all-features --no-deps
       - run: cargo build --locked --workspace --release
@@ -24,3 +26,5 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: cargo install cargo-audit --version 0.22.2 --locked
       - run: cargo audit
+      - run: cargo install cargo-deny --version 0.20.2 --locked
+      - run: cargo deny check

@@ -1,6 +1,7 @@
 [package]
 name = "youtube-rust"
 version = "0.1.0"
+license = "MIT"
 edition = "2024"
 rust-version = "1.98.1"
 publish = false
@@ -19,7 +20,7 @@ tempfile = "=3.27.0"
 unsafe_code = "forbid"
 
 [lints.clippy]
-all = "warn"
+all = "deny"
 
 [profile.release]
 lto = "thin"

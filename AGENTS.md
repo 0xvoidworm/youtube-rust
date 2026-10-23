@@ -12,3 +12,15 @@
 - Tambahkan test untuk perilaku aplikasi yang penting. Template awal belum memiliki test aplikasi.
 - Jalankan coverage saat perlu mengukur cakupan pengujian, bukan sebagai pengganti test yang bermakna.
 - Pipeline default memakai `--all-features`; sesuaikan bila aplikasi mempunyai fitur yang saling eksklusif.
+
+## Gate compile (wajib hijau sebelum selesai)
+
+```bash
+~/Workspace/scripts/verify-rust.sh ~/Workspace/projects/youtube-rust
+```
+
+Exit 0 = CLEAN, 1 = DIRTY. Jangan menyatakan selesai kalau gate merah.
+Gate ini menjalankan: fmt, check, clippy `-D warnings`, test, release build, cargo-audit,
+cargo-deny, dan audit anti-curang (deteksi `|| true`, `--no-deps`,
+`-A warnings`, `RUSTFLAGS`, blanket `allow`, `unsafe` tanpa justifikasi).
+Detail: `~/Workspace/MEMORI_COMPILE_GATE.md`.

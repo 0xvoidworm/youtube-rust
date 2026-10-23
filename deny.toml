@@ -1,0 +1,44 @@
+# cargo-deny policy — dipakai gate ~/Workspace/scripts/verify-rust.sh
+# Gate ini.blokir kalau ada advisory, lisensi di luar daftar, atau deps
+# wildcard. Setiap pengecualian harus punya alasan.
+[graph]
+all-features = true
+exclude-dev = false
+
+[advisories]
+version = 2
+ignore = []
+# yank = "all"  # crate yang di-yank upstream tetap dilaporkan
+
+[bans]
+multiple-versions = "allow"
+wildcards = "deny"
+highlight = "all"
+deny = []
+skip = []
+skip-tree = []
+
+[licenses]
+version = 2
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+    # whisper-rs (Whisper.cpp binding) — Unlicense, OSI-approved & permissive
+    "Unlicense",
+    "MPL-2.0",
+    "Unicode-DFS-2016",
+]
+confidence-threshold = 0.8
+exceptions = []
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
